@@ -8,15 +8,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 p-6">
-  <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
-    <h1 class="text-2xl font-bold mb-4">Simple Contact Manager</h1>
+<body class="bg-black p-6">
+  <div class="max-w-2xl mx-auto bg-gray-800 shadow-lg rounded-lg p-6">
+    <h1 class="text-2xl text-gray-300 font-bold mb-4">Simple Contact Manager</h1>
 
     <!-- Add Contact Form -->
     <div class="mb-4">
-      <input id="name" type="text" placeholder="Name" class="border p-2 rounded w-full mb-2">
-      <input id="email" type="email" placeholder="Email" class="border p-2 rounded w-full mb-2">
-      <input id="phone" type="text" placeholder="Phone" class="border p-2 rounded w-full mb-2">
+      <input id="name" type="text" placeholder="Name" class="border-none text-white bg-black p-2 rounded w-full mb-2">
+      <input id="email" type="email" placeholder="Email" class="border-none text-white bg-black p-2 rounded w-full mb-2">
+      <input id="phone" type="text" placeholder="Phone" class="border-none text-white bg-black p-2 rounded w-full mb-2">
       <button id="addBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Add Contact</button>
     </div>
 
@@ -52,7 +52,7 @@
         const li = document.createElement('li');
         li.className = 'border p-4 rounded flex justify-between items-center';
         li.innerHTML = `
-          <div>
+          <div class="text-white">
             <p><strong>Name:</strong> ${contact.name}</p>
             <p><strong>Email:</strong> ${contact.email}</p>
             <p><strong>Phone:</strong> ${contact.phone}</p>
