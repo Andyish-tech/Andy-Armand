@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Contact Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+  <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-4">Simple Contact Manager</h1>
+
+    <!-- Add Contact Form -->
+    <div class="mb-4">
+      <input id="name" type="text" placeholder="Name" class="border p-2 rounded w-full mb-2">
+      <input id="email" type="email" placeholder="Email" class="border p-2 rounded w-full mb-2">
+      <input id="phone" type="text" placeholder="Phone" class="border p-2 rounded w-full mb-2">
+      <button id="addBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Add Contact</button>
+    </div>
+
+    <!-- Contacts List -->
+    <ul id="contactList" class="space-y-4"></ul>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const addBtn = document.getElementById('addBtn');
+    const contactList = document.getElementById('contactList');
+
+    let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    let editIndex = null;
+
+    function saveContacts() {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+
+    function clearForm() {
+      nameInput.value = '';
+      emailInput.value = '';
+      phoneInput.value = '';
+      editIndex = null;
+      addBtn.textContent = 'Add Contact';
+    }
+
+    function renderContacts() {
+      contactList.innerHTML = '';
+      contacts.forEach((contact, index) => {
+        const li = document.createElement('li');
+        li.className = 'border p-4 rounded flex justify-between items-center';
+        li.innerHTML = `
+          <div>
+            <p><strong>Name:</strong> ${contact.name}</p>
+            <p><strong>Email:</strong> ${contact.email}</p>
+            <p><strong>Phone:</strong> ${contact.phone}</p>
+          </div>
+          <div class="space-x-2">
+            <button onclick="editContact(${index})" class="bg-yellow-400 text-white px-2 py-1 rounded">Edit</button>
+            <button onclick="deleteContact(${index})" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+          </div>
+        `;
+        contactList.appendChild(li);
+      });
+    }
+
+    function editContact(index) {
+      const contact = contacts[index];
+      nameInput.value = contact.name;
+      emailInput.value = contact.email;
+      phoneInput.value = contact.phone;
+      editIndex = index;
+      addBtn.textContent = 'Update Contact';
+    }
+
+    function deleteContact(index) {
+      contacts.splice(index, 1);
+      saveContacts();
+      renderContacts();
+    }
+
+    addBtn.addEventListener('click', () => {
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const phone = phoneInput.value.trim();
+
+      if (!name || !email || !phone) return alert('All fields are required.');
+
+      const newContact = { name, email, phone };
+
+      if (editIndex !== null) {
+        contacts[editIndex] = newContact;
+      } else {
+        contacts.push(newContact);
+      }
+
+      saveContacts();
+      clearForm();
+      renderContacts();
+    });
+
+    renderContacts();
+  </script>
+</body>
+
+</html>
